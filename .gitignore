@@ -1,0 +1,9 @@
+*~
+.*.swp
+/.ruby-gemset
+/.ruby-version
+/.rvmrc
+/coverage
+/Gemfile.lock
+/config/initializers/*.rb
+/log/*.log

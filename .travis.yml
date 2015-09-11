@@ -1,0 +1,7 @@
+language: ruby
+sudo: false
+rvm:
+  - 2.2.3
+  - 2.1.7
+before_install:
+  - cp config/initializers/session_token.rb.example config/initializers/session_token.rb
