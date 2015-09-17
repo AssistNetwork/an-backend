@@ -5,5 +5,5 @@
 /.rvmrc
 /coverage
 /Gemfile.lock
-/config/initializers/*.rb
 /log/*.log
+/pkg/

@@ -1,3 +1,4 @@
+# Provides configuration capabilities.
 module AN
   class << self
     attr_reader :configuration
@@ -10,6 +11,6 @@ module AN
 
   class Configuration
     # It is used for session token cryptography.
-    attr_accessor :secret_token
+    attr_accessor :session_secret
   end
 end

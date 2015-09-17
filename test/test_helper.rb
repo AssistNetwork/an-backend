@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'simplecov'
 require 'coveralls'
 

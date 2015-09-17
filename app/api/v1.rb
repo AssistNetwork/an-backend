@@ -14,7 +14,7 @@ module AN
       end
     end
 
-    use Rack::Session::Cookie, secret: ::AN.configuration.secret_token
+    use Rack::Session::Cookie, secret: ::AN.configuration.session_secret
 
     desc 'Returns current API version and environment.'
     get do

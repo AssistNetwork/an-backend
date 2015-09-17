@@ -5,7 +5,7 @@ require 'logger'
 module AN
   class << self
     def logger
-      @logger ||= ::Logger.new(File.expand_path("../log/#{ENV["RACK_ENV"]}.log", __dir__))
+      @logger ||= heroku? ? ::Logger.new(STDOUT) : ::Logger.new(File.expand_path("../../log/#{ENV["RACK_ENV"]}.log", __dir__))
     end
   end
 end

@@ -1,3 +1,0 @@
-AN.configure do |an|
-  an.secret_token = 'UuEo0OiCvSXRUHmCRahKRQLoDgoBz5lpKmwHxXh3QT89nBcVHljiqD8z0ODs2DiU'
-end

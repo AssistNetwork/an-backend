@@ -8,11 +8,18 @@ Gem::Specification.new do |gem|
   gem.email       = ['gbence@gmail.com']
   gem.description = 'Assist Network Backend Service'
   gem.summary     = 'Backend Service and API for Assist Network.'
+  gem.homepage    = 'https://github.com/AssistNetwork'
 
   gem.name        = 'an-backend'
   gem.version     = AN::VERSION
+  #gem.require_paths = ['lib']
+
+  # Ruby
+  gem.required_ruby_version = '>= 2.1.0'
+  gem.required_rubygems_version = '>= 2.1.0'
 
   # Dependencies
+  gem.add_dependency 'puma'
   gem.add_dependency 'grape'
   gem.add_dependency 'rack-cors'
 
@@ -30,11 +37,13 @@ Gem::Specification.new do |gem|
 
   # Tools
   gem.add_development_dependency 'pry'
+  gem.add_development_dependency 'travis'
   gem.add_development_dependency 'travis-lint'
 
   # Files
-  gem.files = `git ls-files`.split
-  gem.executables   = Dir['bin/*'].map { |f| File.basename(f) }
-  #gem.require_paths = ['lib']
+  unless ENV['DYNO'] # if we're not running on Heroku
+    gem.files = `git ls-files`.split
+    gem.test_files = Dir['test/**/*']
+    gem.executables   = Dir['bin/*'].map { |f| File.basename(f) }
+  end
 end
-
