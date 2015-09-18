@@ -1,7 +1,14 @@
 language: ruby
 sudo: false
 rvm:
-  - 2.2.3
-  - 2.1.7
-before_install:
-  - cp config/initializers/session_token.rb.example config/initializers/session_token.rb
+- 2.2.3
+- 2.1.7
+deploy:
+  provider: heroku
+  api_key:
+    secure: PlnTs96OkU7/yXFEsmyToSdpfN0c8WDZj7ERCaohMUQtjkNktXHzveXiJsxa/dhZNmcZnWDzEkPOCbqHEbLvsw3jE2xUCyLn1+CN/Od9xOF/uCaWhSXAAXOpg32VTu66en+HkP9L1N5sxsnVNno59uJR+lPGs5FvHn2vd9yuoQqn7skTl9xmgCi5UUn6uY+hkWNekdWuFm0DlOxaNzpgif9v5NcxuENpWOJxwkRhnO063u+MalQfdloOTaTBRTo7Hj+oPXnk1CHA8ESnW10LIqqocf48/JSXadrhTKare2KgErtZPIkVKeq7DtKZTOm1D82QYhRdhcSCHEoZ3K7fxWkl07DjLTi77+q1hw+r0CQoKkWqTHzcm5lh8sy6Zr+cvUx7K4dp6Ec7dMyM7mmy5HD/UbryNYkJozgieXji/rxLfuQL1pHtNzUw+v6KQqmegZTkg1IURpJf/uM1c9qTH2HqgJnEqiwHi/keXBwsXoRzK9V4TJZMGwT+ytY/UkmyStmJI8xcPmugny1H6J94ZmO6CAA6EQcJUODo64u38/IkFUVJsfVWFeoYJIDb2jmqWvda7vXE1dsswQVZojgb4bpnrV1UygTd0kyshQpQt860f9+rXK4uwrCNfR/NFXiHpz0LQRlo2vOvDOw4BzYySg5bDIDvJIxADxEahMHUkzs=
+  app:
+    master: assist-network-staging
+    production: assist-network
+  on:
+    repo: AssistNetwork/an-backend
