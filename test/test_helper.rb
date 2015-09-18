@@ -30,5 +30,5 @@ end
 # We don't need pry at all costs... :)
 begin
   require 'pry'
-rescue
+rescue LoadError
 end
