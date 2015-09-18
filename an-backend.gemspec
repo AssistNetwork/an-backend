@@ -19,31 +19,18 @@ Gem::Specification.new do |gem|
   gem.required_rubygems_version = '>= 2.1.0'
 
   # Dependencies
+  gem.add_dependency 'rake'
   gem.add_dependency 'puma'
   gem.add_dependency 'grape'
   gem.add_dependency 'rack-cors'
 
-  # Build and task management
-  gem.add_development_dependency 'rake'
-
   # Specification and documentation
   #gem.add_development_dependency 'yard'
   
-  # Tests and coverage
-  gem.add_development_dependency 'minitest'
-  gem.add_development_dependency 'rack-test'
-  gem.add_development_dependency 'simplecov'
-  gem.add_development_dependency 'coveralls'
-
-  # Tools
-  gem.add_development_dependency 'pry'
-  gem.add_development_dependency 'travis'
-  gem.add_development_dependency 'travis-lint'
-
   # Files
-  unless ENV['DYNO'] # if we're not running on Heroku
+  unless ENV['DYNO'] # check whether we're running on Heroku or not
     gem.files = `git ls-files`.split
     gem.test_files = Dir['test/**/*']
-    gem.executables   = Dir['bin/*'].map { |f| File.basename(f) }
+    gem.executables = Dir['bin/*'].map { |f| File.basename(f) }
   end
 end

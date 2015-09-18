@@ -5,6 +5,7 @@ PATH
       grape
       puma
       rack-cors
+      rake
 
 GEM
   remote: https://rubygems.org/
@@ -147,7 +148,6 @@ DEPENDENCIES
   minitest
   pry
   rack-test
-  rake
   simplecov
   travis
   travis-lint
