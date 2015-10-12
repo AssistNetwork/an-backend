@@ -7,7 +7,7 @@ module AN
       end
     end
 
-    def initialize! **options
+    def initialize!(**options)
     end
   end
 end

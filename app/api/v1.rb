@@ -1,6 +1,8 @@
 require 'grape'
 require 'rack/cors'
 
+require_relative '../../lib/an'
+
 module AN
   class V1 < ::Grape::API
     prefix 'api'
@@ -20,5 +22,20 @@ module AN
     get do
       { version: 'v1', environment: ENV['RACK_ENV'] }
     end
+
+    resource :demand
+
+    desc 'Returns current demands.'
+
+    get :list do
+      p 'demand/list'
+    end
+
+    desc 'Returns current API version and environment.'
+
+    post do
+      { version: 'v1', environment: ENV['RACK_ENV'] }
+    end
+
   end
 end

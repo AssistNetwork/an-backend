@@ -1,9 +1,2 @@
-*~
-.*.swp
 /.ruby-gemset
 /.ruby-version
-/.rvmrc
-/coverage
-/Gemfile.lock
-/log/*.log
-/pkg/

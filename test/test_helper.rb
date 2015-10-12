@@ -1,23 +1,27 @@
-require 'simplecov'
-require 'coveralls'
+unless ENV['RACK_ENV']='development'
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-]
+  require 'simplecov'
+  require 'coveralls'
 
-SimpleCov.start do 
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+  ]
+
+  SimpleCov.start do
   add_filter '/test/'
   add_group 'API',      '/app/api'
-  add_group 'Locales',  '/app/locales'
-  add_group 'Models',   '/app/models'
+  add_group 'Locales',  '/app/locales' #TODO ez hol legyen? nem a lib-ben a helye?
+  add_group 'Models',   '/app/models'  #TODO ez hol legyen? nem a lib-ben a helye?
+end
+
 end
 
 ENV['RACK_ENV'] ||= 'test'
 
 require 'bundler/setup'
 require_relative '../config/application.rb'
-Dir[File.expand_path('../helpers/**/*.rb', __FILE__)].reduce(self, :require)
+Dir[File.expand_path('helpers/**/*.rb', __FILE__)].reduce(self, :require)
 
 AN.initialize!
 

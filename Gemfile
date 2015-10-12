@@ -16,10 +16,11 @@ group :test do
 
   # Testing
   gem 'minitest'
+  gem 'minitest-reporters'
   gem 'rack-test'
 
   # Coverage
-  gem 'simplecov'
-  gem 'coveralls'
+#  gem 'simplecov'
+#  gem 'coveralls'
 
 end

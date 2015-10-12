@@ -7,3 +7,7 @@ Assist Network -- Backend Servce
 This is.
 
 There is a lot to do.
+
+1. backend authorization https://intridea.github.io/grape/docs/Grape/Middleware/Auth/OAuth2.html ???
+2. api test sample
+3. 

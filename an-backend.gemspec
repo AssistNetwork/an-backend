@@ -1,11 +1,11 @@
 #$:.push File.expand_path("../lib", __FILE__)
 
-require_relative "config/version"
+require_relative 'config/version'
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |gem|
-  gem.authors     = ['Bence Golda']
-  gem.email       = ['gbence@gmail.com']
+  gem.authors     = ['Bence Golda', 'Gabor Nagymajtenyi']
+  gem.email       = ['gbence@gmail.com', 'gabor.nagymajtenyi@gmail.com']
   gem.description = 'Assist Network Backend Service'
   gem.summary     = 'Backend Service and API for Assist Network.'
   gem.homepage    = 'https://github.com/AssistNetwork'
@@ -23,6 +23,11 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'puma'
   gem.add_dependency 'grape'
   gem.add_dependency 'rack-cors'
+  gem.add_dependency 'ohm'
+#  gem.add_dependency 'ohm-datatypes'
+  gem.add_dependency 'ohm-stateful-model'
+  gem.add_dependency 'ohm-zset'
+  gem.add_dependency 'ohm-contrib'
 
   # Specification and documentation
   #gem.add_development_dependency 'yard'

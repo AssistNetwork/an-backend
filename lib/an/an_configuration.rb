@@ -10,7 +10,8 @@ module AN
   end
 
   class Configuration
-    # It is used for session token cryptography.
+    # It is used for session token cryptography and redis configuration
     attr_accessor :session_secret
+    attr_accessor :redis
   end
 end
