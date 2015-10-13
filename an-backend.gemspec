@@ -1,7 +1,5 @@
-
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |gem|
-  gem.add_dependency 'config/version'
 
   gem.authors     = ['Bence Golda', 'Gabor Nagymajtenyi']
   gem.email       = ['gbence@gmail.com', 'gabor.nagymajtenyi@gmail.com']
