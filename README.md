@@ -8,8 +8,9 @@ This is.
 
 There is a lot to do.
 
-1. local dev and travis-ci test sample with minitest
-1. backend authorization https://intridea.github.io/grape/docs/Grape/Middleware/Auth/OAuth2.html ???
-2. api functional testing
-3. api non functional testing
-
+0. megfelelő config file-ok: Gemfile, .gemspec, .travis.yml, ...
+1. local dev and travis-ci test sample with minitest 
+2. backend authorization https://intridea.github.io/grape/docs/Grape/Middleware/Auth/OAuth2.html ???
+3. api functional testing
+4. api non functional testing
+5. 
