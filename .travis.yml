@@ -1,8 +1,11 @@
 language: ruby
 sudo: false
 rvm:
-- 2.2.3
-- 2.1.7
+- 2.2.0
+gemfile:
+  - gemfiles/ohm-stateful-model-1.0.0.gem
+  - gemfiles/ohm-zset-0.6.gem
+  - Gemfile
 deploy:
   provider: heroku
   api_key:
