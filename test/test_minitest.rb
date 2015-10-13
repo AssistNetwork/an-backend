@@ -13,6 +13,4 @@ class TestMinitest < Minitest::Test
   def valami
     assert_equal 'valami', 'valami'
   end
-
-
 end

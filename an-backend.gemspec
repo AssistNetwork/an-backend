@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
 
   # Dependencies
 
+  gem.add_dependency 'rake'
   gem.add_dependency 'puma'
   gem.add_dependency 'grape'
   gem.add_dependency 'rack-cors'
@@ -24,18 +25,22 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'ohm-stateful-model'
   gem.add_dependency 'ohm-zset'
   gem.add_dependency 'ohm-contrib'
+  gem.add_dependency 'minitest'
+  gem.add_dependency 'rack-test'
+  gem.add_dependency 'travis'
+  gem.add_dependency 'travis-lint'
+  gem.add_development_dependency 'simplecov'
+  gem.add_development_dependency 'coveralls'
+  gem.add_development_dependency 'pry'
 
   # Specification and documentation
   #gem.add_development_dependency 'yard'
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'minitest'
+
+
   #gem.add_development_dependency 'minitest-reporters'
-  gem.add_development_dependency 'rack-test'
-  #gem.add_development_dependency 'pry'
-  #gem.add_development_dependency 'travis'
-  #gem.add_development_dependency 'travis-lint'
-  #gem.add_development_dependency 'simplecov'
-  #gem.add_development_dependency 'coveralls'
+
+
+
   
   # Files
   unless ENV['DYNO'] # check whether we're running on Heroku or not
