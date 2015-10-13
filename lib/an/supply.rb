@@ -5,7 +5,7 @@ class Supply < Ohm::Model
   include Ohm::Timestamps
 
   attribute :network
-  attribute :node
+  attribute :id
   attribute :what   # mit: a szokásos command
   attribute :start  # mettől
   attribute :end    # meddig

@@ -5,15 +5,18 @@ class Demand < Ohm::Model
   include Ohm::Timestamps
 
   attribute :network
-  attribute :node
+  attribute :id
   attribute :what     # mit: a szokásos command
-  attribute :start    # meddig?
+  attribute :start    # mettől
   attribute :end      # meddig
   attribute :where    # hol?
   attribute :reason
+  attribute :state
+  attribute :parentid
 
   def initialize
     @network = :an
+    # generate ID:=nodeID + DemandID
   end
 
 end

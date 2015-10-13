@@ -4,11 +4,11 @@ gemspec
 group :development do
 
   # Tools
-  gem 'pry'
+  #gem 'pry'
 
   # Automation
-  gem 'travis'
-  gem 'travis-lint'
+  #gem 'travis'
+  #gem 'travis-lint'
 
 end
 

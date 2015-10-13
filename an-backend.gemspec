@@ -15,8 +15,8 @@ Gem::Specification.new do |gem|
   #gem.require_paths = ['lib']
 
   # Ruby
-  gem.required_ruby_version = '>= 2.1.0'
-  gem.required_rubygems_version = '>= 2.1.0'
+  gem.required_ruby_version = '>= 2.2.0'
+  gem.required_rubygems_version = '>= 2.2.0'
 
   # Dependencies
   gem.add_dependency 'rake'
@@ -31,6 +31,9 @@ Gem::Specification.new do |gem|
 
   # Specification and documentation
   #gem.add_development_dependency 'yard'
+  gem.add_development_dependency 'minitest'
+  gem.add_development_dependency 'minitest-reporters'
+  gem.add_development_dependency 'rack-test'
   
   # Files
   unless ENV['DYNO'] # check whether we're running on Heroku or not

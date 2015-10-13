@@ -20,7 +20,7 @@ Rake::TestTask.new do |t|
 end
 
 # -- Linting
-desc 'Validate .travis.yml'
-task :'travis-lint' do
-  sh "travis-lint #{File.expand_path('.travis.yml', __dir__)}"
-end
+#desc 'Validate .travis.yml'
+#task :'travis-lint' do
+#  sh "travis-lint #{File.expand_path('.travis.yml', __dir__)}"
+#end

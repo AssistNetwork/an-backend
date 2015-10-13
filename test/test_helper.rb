@@ -25,10 +25,16 @@ Dir[File.expand_path('helpers/**/*.rb', __FILE__)].reduce(self, :require)
 
 AN.initialize!
 
+=begin
 require 'minitest/autorun'
 
-class Minitest::Test
+class < Minitest::Test
   include AN::Test::API
+
+  def setup
+    AN.redis.flushall
+  end
+
 end
 
 # We don't need pry at all costs... :)
@@ -36,3 +42,4 @@ begin
   require 'pry'
 rescue LoadError
 end
+=end

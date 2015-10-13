@@ -8,6 +8,8 @@ This is.
 
 There is a lot to do.
 
+1. local dev and travis-ci test sample with minitest
 1. backend authorization https://intridea.github.io/grape/docs/Grape/Middleware/Auth/OAuth2.html ???
-2. api test sample
-3. 
+2. api functional testing
+3. api non functional testing
+
