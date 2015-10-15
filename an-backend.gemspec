@@ -29,17 +29,15 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rack-test'
   gem.add_dependency 'travis'
   gem.add_dependency 'travis-lint'
-  gem.add_development_dependency 'simplecov'
-  gem.add_development_dependency 'coveralls'
-  gem.add_development_dependency 'pry'
+  gem.add_dependency 'simplecov'
+  gem.add_dependency 'coveralls'
+  gem.add_dependency 'pry'
+  gem.add_dependency 'rubocop'
 
   # Specification and documentation
   #gem.add_development_dependency 'yard'
 
-
   #gem.add_development_dependency 'minitest-reporters'
-
-
 
   
   # Files

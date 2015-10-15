@@ -1,23 +1,38 @@
+require 'bundler'
+require 'bundler/gem_tasks'
+
 # -- Setup
 begin
-  require 'bundler/setup'
-rescue LoadError
-  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
+end
+
+# -- Install tasks
+Bundler::GemHelper.install_tasks
+
+# -- Style
+require 'rubocop/rake_task'
+desc 'Run Ruby style checks'
+RuboCop::RakeTask.new(:rubocop)
+
+# -- Test
+require 'rake/testtask'
+desc 'Tests local'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'test'
+  test.pattern = 'test/**/test_*.rb'
+  test.verbose = true
 end
 
 # -- Defaults
 task default: :test
 
-# -- Install tasks
-Bundler::GemHelper.install_tasks
-
-# -- Tests
-require 'rake/testtask'
-Rake::TestTask.new do |t|
-  t.libs << 'test'
-  t.test_files = FileList['test/test_*.rb'] + FileList['test/*_spec.rb']
-  t.verbose = true
-end
+#desc 'Run tests on Travis'
+#task travis: %w(style spec) # TODO: Figure out how to run integration tests in CI.
+#heroku.rake
 
 # -- Linting
 desc 'Validate .travis.yml'
