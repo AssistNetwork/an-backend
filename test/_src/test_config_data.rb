@@ -1,13 +1,7 @@
 require 'minitest/autorun'
 
-require 'minitest/reporters' # requires the gem
-
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
-
 require 'net/http'
 require 'ohm'
-
-
 
 
 ENV['RACK_ENV'] ||= 'development'
@@ -24,13 +18,14 @@ class TestConfigData < Minitest::Test
 #  include AN::Test::API
 
   def setup
-    Ohm.redis.flushall
+    Ohm.redis = Redic.new("redis://127.0.0.1:6379")
+    Ohm.redis.call("FLUSHALL")
     AN.initialize!
   end
 
-  def service_config
+  def test_ervice_config
 
-    srv = Service.create File.read('object.json')
+    srv = Service.create File.read('data/object.json')
     srv.save
 
     p "id = #{srv.id}"

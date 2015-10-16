@@ -5,6 +5,7 @@ require_relative 'api_helpers'
 require_relative '../../lib/an'
 
 module AN
+
   class V1 < ::Grape::API
     helpers ApiHelpers
     prefix 'api'
@@ -27,6 +28,10 @@ module AN
 
     # Object handling
     resource :object do
+
+      get do
+        { ping: 'pong'}
+      end
 
       desc 'Return list of objects'
       params do
@@ -204,6 +209,5 @@ module AN
     end
 
   end
-
 
 end

@@ -3,7 +3,7 @@ require 'rack/test'
 module AN
   module Test
     module API
-      def included into
+      def included (into)
         into.include Minitest::Assertions
         into.extend ClassMethods
       end
@@ -24,15 +24,15 @@ module AN
 
       class RackApp
         include Rack::Test::Methods
-        def app version='v1'
+        def app (version='v1')
           AN.const_get(version.upcase)
         end
       end
 
       class RackResponse
         attr_reader :response
-        delegate :status, :headers, to: :response
-        def initialize response
+#        delegate :status, :headers, to: :response #TODO megnézni, mi a gond a delegate-tel!
+        def initialize (response)
           @response = response
         end
 

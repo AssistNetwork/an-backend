@@ -9,11 +9,11 @@ unless ENV['RACK_ENV']='development'
   ]
 
   SimpleCov.start do
-  add_filter '/test/'
-  add_group 'API',      '/app/api'
-  add_group 'Locales',  '/app/locales' #TODO ez hol legyen? nem a lib-ben a helye?
-  add_group 'Models',   '/app/models'  #TODO ez hol legyen? nem a lib-ben a helye?
-end
+    add_filter '/test/'
+    add_group 'API',      '/app/api'
+    add_group 'Locales',  '/app/locales' #TODO ez hol legyen? nem a lib-ben a helye?
+    add_group 'Models',   '/app/models'  #TODO ez hol legyen? nem a lib-ben a helye?
+  end
 
 end
 
@@ -21,14 +21,15 @@ ENV['RACK_ENV'] ||= 'test'
 
 require 'bundler/setup'
 require_relative '../config/application.rb'
-Dir[File.expand_path('helpers/**/*.rb', __FILE__)].reduce(self, :require)
+Dir[File.expand_path('helpers/**/*.rb', __dir__)].reduce(self, :require)
+
+p File.expand_path('helpers/**/*.rb', __dir__)
 
 AN.initialize!
 
-=begin
 require 'minitest/autorun'
 
-class < Minitest::Test
+class ANTest < Minitest::Test
   include AN::Test::API
 
   def setup
@@ -42,4 +43,4 @@ begin
   require 'pry'
 rescue LoadError
 end
-=end
+

@@ -1,4 +1,4 @@
-require 'logger' #TODO szabványos Grape logger
+#TODO szabványos Grape logger
 #require 'ohm'
 require 'ohm/stateful_model'
 

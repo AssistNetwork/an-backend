@@ -33,6 +33,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'coveralls'
   gem.add_dependency 'pry'
   gem.add_dependency 'rubocop'
+  gem.add_dependency 'json-schema'
+  gem.add_dependency 'simple_oauth'
 
   # Specification and documentation
   #gem.add_development_dependency 'yard'

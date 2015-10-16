@@ -6,8 +6,10 @@ require 'minitest'
 require 'minitest/autorun'
 require 'rack/test'
 require 'logger'
-require_relative '../../app/api/v1'
+require_relative '../../config/application'
+
 Grape::API.logger = Logger.new('/dev/null')
+
 
 class ApiTest
   include MiniTest::Assertions
@@ -48,10 +50,15 @@ class ApiTest
   end
 end
 
-class AN::API::TestCase < MiniTest::Test
+class AnTest < MiniTest::Test
 
   def setup
+    Ohm.redis = Redic.new("redis://127.0.0.1:6379")
+    Ohm.redis.call("FLUSHALL")
+    AN.initialize!
     @client = ApiTest.new
   end
+
+  
 
 end
