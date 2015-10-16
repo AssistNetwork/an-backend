@@ -6,6 +6,21 @@ module ApiHelpers
     error!('401 Unauthorized', 401) unless headers['Auth'] == 'an-dev'
   end
 
+  def cmd_type (cmd)
+    case cmd.to_s
+      when 'd'
+        'Demand'.to_sym
+      when 's'
+        'Supply'.to_sym
+      when 'o'
+        'Offer'.to_sym
+      when 'e'
+        'Event'.to_sym
+      else
+        ''
+    end
+  end
+
   def paginate(set, page_num, limit)
 
     if limit.nil?

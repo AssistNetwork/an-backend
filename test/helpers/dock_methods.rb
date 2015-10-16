@@ -12,8 +12,8 @@ module DockTest
           skip_test_to_avoid_side_efforts
         end
 
-        request_url = full_url(DockTest.url, path)
-        uri = URI.parse(request_url)
+        request_uri = full_uri(DockTest.uri, path)
+        uri = URI.parse(request_uri)
 
         if DockTest.localhost?
           uri.port = DockTest.port
@@ -92,14 +92,14 @@ module DockTest
         skip('this test is skipped in order to avoid potential side effects.')
       end
 
-      # cleanse and combine url and path to retrieve a valid full url
-      def full_url(url, path)
+      # cleanse and combine url and path to retrieve a valid full uri
+      def full_uri(uri, path)
         if path.start_with?('http')
           path
         else
-          url = url[0..1] if url.end_with?('/')
+          uri = url[0..1] if uri.end_with?('/')
           path = path[1..-1] if path.start_with?('/')
-          "#{url}/#{path}"
+          "#{uri}/#{path}"
         end
       end
   end

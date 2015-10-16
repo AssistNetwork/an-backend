@@ -1,10 +1,10 @@
 module DockTest
   module DSL
 
-    attr_reader :url
-    # sets the test url
-    def url=(value)
-      @url = value
+    attr_reader :uri
+    # sets the test uri
+    def uri=(value)
+      @uri = value
     end
 
     # oauth settings

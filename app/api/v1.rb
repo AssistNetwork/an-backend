@@ -26,6 +26,128 @@ module AN
       { version: 'v1', environment: ENV['RACK_ENV'] }
     end
 
+    # testing
+    resource :test do
+      get do
+=begin
+        if params['HTTP_CONTENT_TYPE'] == 'application/json' then
+          request_json = {
+            verb: params["REQUEST_METHOD"],
+            uri:  params["REQUEST_URI"],
+            body: params["rack.input"].read,
+            protcol: params["SERVER_PROTOCOL"],
+            headers: Hash[params[].select {|k, v| k.start_with?("HTTP_") }.map {|k, v| [k[5..-1], v] }]
+            }.to_json
+          {200, {'Content-Type' => "application/json", 'Content-Length' => request_json.length.to_s}, [request_json]}
+        else
+          {200, {'Content-Type' => 'application/xml'}, {'<foo><bar>baz</bar></foo>'}}
+        end
+=end
+      end
+    end
+
+    # AN COM handling
+    resource :com do
+
+      desc 'COM pingpong'
+      get :test do
+        { ping: 'pong'}
+      end
+
+      desc 'Return list of Messages'
+      params do
+        requires :network, type: String, desc:'Assist-Network, Default:an'
+        requires :node, type: Integer, desc: 'AN-Node ID'
+        optional :cmd, type: String, desc: 'AN-Command'
+        optional :query, type: String, desc: 'Filter'
+        optional :page, type: Integer, desc: 'Page num'
+        optional :limit, type: Integer, desc: 'Page size'
+      end
+      get :list do
+        #authenticate!
+        begin
+          clazz = Object.const_get(params[cmd_type(:cmd)])
+        rescue NameError
+          {:error => 'Wrong object type'}
+        end
+        if clazz.nil? or !clazz.ancestors.include? Ohm::Model
+          {:error => 'Wrong object type'}
+        else
+          set = clazz.all # TODO query filtering
+          paginate(set, params[:page], params[:limit])
+        end
+      end
+
+      desc 'Return a Message'
+      params do
+        requires :network, type: String, desc:'Assist-Network, Default:an'
+        requires :node, type: Integer, desc: 'AN-Node ID'
+        requires :cmd, type: String, desc: 'AN-Command'
+        requires :msg_id, type: Integer, desc: 'MSG _id'
+      end
+      route_param :object_id do
+        get do
+          #authenticate!
+          begin
+            clazz = Object.const_get(params[:type])
+          rescue NameError
+            {:error => 'Wrong object type'}
+          end
+          if clazz.nil? or !clazz.ancestors.include? Ohm::Model
+            {:error => 'Wrong object type'}
+          else
+            object = clazz[params[:msg_id]]
+            if object.nil?
+              {:error => 'Object not found'}
+            else
+              object.to_hash
+            end
+          end
+        end
+      end
+
+      desc 'Create/Update an object'
+      params do
+        requires :type, type: String, desc: 'Object type'
+        requires :object, type: Hash, desc: 'Object'
+      end
+      post do
+        authenticate!
+        begin
+          #p Object.instance_method(:inspect).bind('Color').call
+          clazz = Object.const_get(params[:type])
+          clazz.ancestors.each do |i|
+            p i.to_s
+          end
+        rescue NameError
+          {:error => "NameError: Wrong constant name #{params[:type].to_s}" }
+        rescue TypeError
+          {:error => 'TypeError: Wrong object type'}
+        end
+        if clazz.nil? or !clazz.ancestors.include?(Ohm::Model)
+          #p clazz.nil?
+          #p clazz.ancestors.include? Ohm::Model
+          {:error => 'ModelError: Wrong object model'}
+        end
+        rescue_db_errors {
+          if !params[:object][:object_id].nil?
+            ojects = clazz.find(_id: params[:object][:object_id])
+            if ojects.count == 0
+              {:error => 'ObjectID Error: Wrong object identifier'}
+            else
+              object = ojects.first
+              object.update(params[:object])
+            end
+          else
+            object = clazz.create(params[:object])
+            object.save
+          end
+          {:object => object.to_hash, :success => true}
+        }
+      end
+
+    end
+
     # Object handling
     resource :object do
 

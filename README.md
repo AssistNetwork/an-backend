@@ -14,3 +14,75 @@ There is a lot to do.
 3. api functional testing
 4. api non functional testing
 5. 
+
+
+Endpoints
+
+api/com
+api/object
+api/flow
+
+and will come
+api/auth
+api/admin/node
+api/admin/network
+
+Commands
+'d', 's', 'o', 'g' => demand, supply, offer, get ...
+
+Assist Network COM packet
+
+COM packet structure:  Who ( network+node ), What ( cmd, what ), When ( start, end ), Where (where)
+
+{
+  "network": "an",
+  "node":"1",
+  "msg":  [
+            {
+              "cmd": "d",
+              "content": {
+                "id": "1",
+                "what": "g/clth/shoe/man::2 pcs",
+                "start": "2015.10.16 08:00",
+                "end": "",
+                "where": "loc1",
+                "reason": "",
+                "state": "",
+                "parentid": ""
+              }
+            },
+            {
+              "cmd": "s",
+              "content": {
+                "id": "1",
+                "what": "g/clth/shoe/woman:37:3 pcs",
+                "start": "2015.10.16 09:00",
+                "end": "",
+                "where": "loc2",
+                "reason": "",
+                "state": "",
+                "parentid": ""
+              }
+            },
+            {
+              "cmd": "d",
+              "content": {
+                "id": "2",
+                "what": "g/food/veget/turnip::5 kg",
+                "start": "2015.10.16 09:00",
+                "end": "",
+                "where": "loc3",
+                "reason": "",
+                "state": "",
+                "parentid": ""
+              }
+            }
+          ]
+
+}
+
+What main taxonomy:
+
+g - Goods
+s - Services
+m - money
