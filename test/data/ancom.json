@@ -5,7 +5,7 @@
             {
               "cmd": "d",
               "content": {
-                "id": "1",
+                "msgid": "1",
                 "what": "/clth/shoe/man::2 pcs",
                 "start": "2015.10.16 08:00",
                 "end": "",
@@ -18,7 +18,7 @@
             {
               "cmd": "s",
               "content": {
-                "id": "1",
+                "msgid": "1",
                 "what": "/clth/shoe/woman:37:3 pcs",
                 "start": "2015.10.16 09:00",
                 "end": "",
@@ -31,7 +31,7 @@
             {
               "cmd": "d",
               "content": {
-                "id": "2",
+                "msgid": "2",
                 "what": "/food/veget/turnip::5 kg",
                 "start": "2015.10.16 09:00",
                 "end": "",

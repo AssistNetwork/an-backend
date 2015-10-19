@@ -4,8 +4,7 @@ require 'ohm/contrib'
 class Supply < Ohm::Model
   include Ohm::Timestamps
 
-  attribute :network
-  attribute :id
+  attribute :msgid
   attribute :what   # mit: a szokásos command
   attribute :start  # mettől
   attribute :end    # meddig

@@ -4,8 +4,7 @@ require 'ohm/contrib'
 class Demand < Ohm::Model
   include Ohm::Timestamps
 
-  attribute :network
-  attribute :id
+  attribute :msgid    # kliens által adott msgid
   attribute :what     # mit: a szokásos command
   attribute :start    # mettől
   attribute :end      # meddig
@@ -15,7 +14,6 @@ class Demand < Ohm::Model
   attribute :parentid
 
   def initialize
-    @network = :an
     # generate ID:=nodeID + DemandID
   end
 

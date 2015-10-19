@@ -35,6 +35,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rubocop'
   gem.add_dependency 'json-schema'
   gem.add_dependency 'simple_oauth'
+  gem.add_dependency 'msgpack'
 
   # Specification and documentation
   #gem.add_development_dependency 'yard'

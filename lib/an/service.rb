@@ -1,25 +1,38 @@
 require 'ohm'
-require 'ohm-zset'
-
-require_relative 'demand'
-require_relative 'supply'
-require_relative 'offer_flow'
-require_relative 'event'
+require_relative 'registration'
+require 'time'
 
 class Service < Ohm::Model
 
   attribute :name
+  unique :name
   attribute :network
+  unique :network
 
-  zset :nodes, :Node
+  set :registrations, :Registration
 
-=begin
-  def add_node (node)
-    @nodes.add node if node.network == @network
+
+  def register_node (node)
+
+    if !node.nil? and Registration[node.id].nil?
+      reg = Registration.create(created: Time.now.to_s)
+      reg.update(node:node)
+      self.registrations.add reg
+      self.save
+    end
   end
 
-  def del_node (node)
-    @nodes.del node
+  def deregister_node (node)
+    if !self.registrations.nil? and !node.nil?
+      self.registrations[node.id].delete
+      TRUE
+    else
+      NIL
+    end
+  end
+
+  def list_nodes
+    self.registrations unless !self.registrations.nil?
   end
 
   def generate_offers # ezt kell majd jól optimalizálni
@@ -41,5 +54,4 @@ class Service < Ohm::Model
       end
     end
   end
-=end
 end

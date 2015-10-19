@@ -54,7 +54,58 @@ module AN
         { ping: 'pong'}
       end
 
-      desc 'Return list of Messages'
+      desc 'Receive AN messages in batch'
+      params do
+        requires :network, type: String, desc:'Assist-Network, Default:an'
+        requires :node, type: Integer, desc: 'AN-Node ID'
+        requires :msg, type: Hash, desc: 'Messeges'
+      end
+      post do
+        #authenticate!
+        begin
+          node = Node.find(params[:node])
+          if node.nil!
+            {:error => 'Wrong node ID'}
+          else
+            msg = params[:msg]
+            msg.each do |m|
+              begin
+                clazz = Object.const_get(params[cmd_type(m.cmd)])
+              rescue NameError
+                  {:error => 'Wrong object type'}
+              end
+              if clazz.nil? or !clazz.ancestors.include?(Ohm::Model)
+                #p clazz.nil?
+                #p clazz.ancestors.include? Ohm::Model
+                {:error => 'ModelError: Wrong object model'}
+              end
+              rescue_db_errors {
+                if !m.id.nil?
+                  ojects = clazz.find(_id: m.id)
+                  if ojects.count == 0
+                    {:error => 'ObjectID Error: Wrong object identifier'}
+                  else
+                    object = ojects.first
+                    object.update( m )
+                  end
+                else
+                  object = clazz.create(m)
+                  object.save
+                end
+                {:object => object.to_hash, :success => true}
+              }
+
+            end
+          end
+        end
+      end
+
+
+
+    end
+
+=begin
+      desc 'Create an AN-MSG Post'
       params do
         requires :network, type: String, desc:'Assist-Network, Default:an'
         requires :node, type: Integer, desc: 'AN-Node ID'
@@ -63,7 +114,7 @@ module AN
         optional :page, type: Integer, desc: 'Page num'
         optional :limit, type: Integer, desc: 'Page size'
       end
-      get :list do
+      post do
         #authenticate!
         begin
           clazz = Object.const_get(params[cmd_type(:cmd)])
@@ -78,6 +129,7 @@ module AN
         end
       end
 
+
       desc 'Return a Message'
       params do
         requires :network, type: String, desc:'Assist-Network, Default:an'
@@ -85,7 +137,7 @@ module AN
         requires :cmd, type: String, desc: 'AN-Command'
         requires :msg_id, type: Integer, desc: 'MSG _id'
       end
-      route_param :object_id do
+      route_param :msg_id do
         get do
           #authenticate!
           begin
@@ -216,9 +268,9 @@ module AN
             p i.to_s
           end
         rescue NameError
-           {:error => "NameError: Wrong constant name #{params[:type].to_s}" }
+          {:error => "NameError: Wrong constant name #{params[:type].to_s}" }
         rescue TypeError
-           {:error => 'TypeError: Wrong object type'}
+          {:error => 'TypeError: Wrong object type'}
         end
         if clazz.nil? or !clazz.ancestors.include?(Ohm::Model)
           #p clazz.nil?
@@ -326,10 +378,8 @@ module AN
         flow.save
 
         {:success => success, :flow => flow.to_hash}
-      end
-
-    end
-
+        end
+=end
   end
 
 end
