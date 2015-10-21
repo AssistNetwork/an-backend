@@ -81,6 +81,15 @@ class Node < Ohm::Model
     supplies = self.supplies.find(filter)
   end
 
+  def attribute_type (cmd)
+    case cmd
+      when 'd'
+        self.demands
+      when 's'
+        self.supplies
+    end
+  end
+
   def to_hash
     hash= {:id => id.to_i}.merge(@attributes)
     hash.merge!({:service => service.to_hash}) unless service.nil?

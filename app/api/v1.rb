@@ -1,5 +1,6 @@
 require 'grape'
 require 'rack/cors'
+
 require_relative 'api_helpers'
 
 require_relative '../../lib/an'
@@ -18,6 +19,8 @@ module AN
         resource '*', headers: :any, methods: [:get, :post, :put, :delete]
       end
     end
+
+    use Grape::Middleware::Logger
 
     use Rack::Session::Cookie, secret: ::AN.configuration.session_secret
 
@@ -57,20 +60,22 @@ module AN
       desc 'Receive AN messages in batch'
       params do
         requires :network, type: String, desc:'Assist-Network, Default:an'
-        requires :node, type: Integer, desc: 'AN-Node ID'
-        requires :msg, type: Hash, desc: 'Messeges'
+        requires :node, type: String, desc: 'AN-Node ID'
+        requires :msg, type: Array, desc: 'Messages'
       end
       post do
         #authenticate!
         begin
-          node = Node.find(params[:node])
-          if node.nil!
+          node = Node[(params[:node])]
+          if node.nil?
             {:error => 'Wrong node ID'}
           else
+            resp = Array.new
             msg = params[:msg]
             msg.each do |m|
               begin
-                clazz = Object.const_get(params[cmd_type(m.cmd)])
+ #               logger.info m.to_s
+                clazz = Object.const_get(cmd_type(m.cmd))
               rescue NameError
                   {:error => 'Wrong object type'}
               end
@@ -80,28 +85,58 @@ module AN
                 {:error => 'ModelError: Wrong object model'}
               end
               rescue_db_errors {
-                if !m.id.nil?
-                  ojects = clazz.find(_id: m.id)
-                  if ojects.count == 0
-                    {:error => 'ObjectID Error: Wrong object identifier'}
+                if !m.content.msgid.nil?
+                  object = clazz[m.content.msgid]
+                  if object.nil?
+                    # create
+                    object = clazz.create(m.content)
+                    object.msgid = m.content.msgid
+                    node.attribute_type(m.cmd).send('add', object )
+                    node.save
+                    resp.push({:object => m.cmd + object.msgid.to_s, :success => true})
                   else
-                    object = ojects.first
-                    object.update( m )
+                    object.update( m.content )
+                    resp.push({:object => m.cmd + object.msgid.to_s, :success => true})
                   end
                 else
-                  object = clazz.create(m)
-                  object.save
+                  resp.push({:error => 'MSGID Error: Null identifier', :success => false})
                 end
-                {:object => object.to_hash, :success => true}
               }
 
             end
+
+            { result: resp.to_s, success: true }
           end
         end
       end
 
-
-
+      desc 'Return a Message'
+      params do
+        requires :network, type: String, desc:'Assist-Network, Default:an'
+        requires :node, type: Integer, desc: 'AN-Node ID'
+        requires :cmd, type: String, desc: 'AN-Command'
+        requires :msgid, type: Integer, desc: 'MSG _id'
+      end
+      route_param :msg_id do
+        get do
+          #authenticate!
+          begin
+            clazz = Object.const_get(cmd_type(params[:cmd]))
+          rescue NameError
+            {:error => 'Wrong object type'}
+          end
+          if clazz.nil? or !clazz.ancestors.include? Ohm::Model
+            {:error => 'Wrong object type'}
+          else
+            object = clazz[params[:msg_id]]
+            if object.nil?
+              {:error => 'Object not found'}
+            else
+              object.to_hash
+            end
+          end
+        end
+      end
     end
 
 =begin
@@ -130,33 +165,7 @@ module AN
       end
 
 
-      desc 'Return a Message'
-      params do
-        requires :network, type: String, desc:'Assist-Network, Default:an'
-        requires :node, type: Integer, desc: 'AN-Node ID'
-        requires :cmd, type: String, desc: 'AN-Command'
-        requires :msg_id, type: Integer, desc: 'MSG _id'
-      end
-      route_param :msg_id do
-        get do
-          #authenticate!
-          begin
-            clazz = Object.const_get(params[:type])
-          rescue NameError
-            {:error => 'Wrong object type'}
-          end
-          if clazz.nil? or !clazz.ancestors.include? Ohm::Model
-            {:error => 'Wrong object type'}
-          else
-            object = clazz[params[:msg_id]]
-            if object.nil?
-              {:error => 'Object not found'}
-            else
-              object.to_hash
-            end
-          end
-        end
-      end
+
 
       desc 'Create/Update an object'
       params do

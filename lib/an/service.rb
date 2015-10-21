@@ -54,4 +54,9 @@ class Service < Ohm::Model
       end
     end
   end
+
+  def to_hash
+    {:id => id.to_i}.merge(@attributes)
+  end
+
 end

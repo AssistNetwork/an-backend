@@ -13,8 +13,16 @@ class Demand < Ohm::Model
   attribute :state
   attribute :parentid
 
-  def initialize
-    # generate ID:=nodeID + DemandID
+  unique :msgid
+  index  :parentid
+
+#  def initialize
+#    super
+#    # generate ID:=nodeID + DemandID - majd ha kell
+#  end
+
+  def to_hash
+    {:id => id.to_i}.merge(@attributes)
   end
 
 end

@@ -10,9 +10,19 @@ class Supply < Ohm::Model
   attribute :end    # meddig
   attribute :where  # hol?
   attribute :reason
+  attribute :state
+  attribute :parentid
 
-  def initialize
-    @network = :an
+  unique :msgid
+  index  :parentid
+
+#  def initialize
+#    super
+#    @network = :an
+#  end
+
+  def to_hash
+    {:id => id.to_i}.merge(@attributes)
   end
 
 end

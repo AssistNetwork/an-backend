@@ -1,41 +1,7 @@
-require 'minitest/autorun'
-require 'ohm'
-require 'json'
+Dir[File.expand_path('helpers/**/*.rb', __dir__)].reduce(self, :require)
 
+class TestConfig < APITest
 
-ENV['RACK_ENV'] ||= 'development'
-
-require 'bundler/setup'
-require_relative '../config/application.rb'
-#Dir[File.expand_path('helpers/**/*.rb', __FILE__)].reduce(self, :require)
-
-require_relative '../lib/an'
-
-
-class TestConfig < Minitest::Test
-#  include AN::Test::API
-
-  def setup
-    Ohm.redis = Redic.new("redis://127.0.0.1:6379")
-    Ohm.redis.call("FLUSHALL")
-    config
-  end
-
-  def config
-
-
-    @srv = Service.create JSON.parse(File.read('data/service.json'))
-    @srv.save
-
-    #p "id = #{@srv.id}"
-    #p @srv.class.ancestors
-
-    @node1 = Node.create JSON.parse(File.read('data/node1.json'))
-    @node1.save
-    @node2 = Node.create JSON.parse(File.read('data/node2.json'))
-    @node2.save
-
-  end
 
   def test_service
     srv = Service[1]
