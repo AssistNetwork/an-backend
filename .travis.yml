@@ -6,9 +6,9 @@ services:
 rvm:
 - 2.2.0
 gemfile:
+  - Gemfile
   - gemfiles/ohm-stateful-model-1.0.0.gem
   - gemfiles/ohm-zset-0.6.gem
-  - Gemfile
 script: bundle exec rake
 deploy:
   provider: heroku
