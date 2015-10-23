@@ -66,6 +66,8 @@ class APITest < Minitest::Test
   end
 
   def config
+
+    $LOAD_PATH.unshift(File.dirname(__FILE__))
     @srv = Service.create JSON.parse(File.read('data/service.json'))
     @srv.save
 

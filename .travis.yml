@@ -6,10 +6,10 @@ services:
 rvm:
 - 2.2.0
 gemfile:
+  - gemfiles
   - Gemfile
-  - gemfiles/ohm-stateful-model-1.0.0.gem
-  - gemfiles/ohm-zset-0.6.gem
-script: bundle exec rake
+bundler_args: --without yard guard benchmarks
+script: "bundle exec rake ci"
 deploy:
   provider: heroku
   api_key:
