@@ -17,7 +17,7 @@ class ANApi < APITest
   end
 
   def test_com_post
-    path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/data' )
+    path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/data/' )
     data = JSON.parse(File.read(path + 'ancom.json'))
     post '/api/com', data
 #    assert last_response.ok? #201 valamiért nem ok
