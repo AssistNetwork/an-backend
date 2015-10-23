@@ -28,6 +28,7 @@ require 'minitest/autorun'
 require 'rack/test'
 #require 'swagger'
 
+require 'pathname'
 
 require_relative '../../lib/an'
 require_relative '../../config/environment'
@@ -67,16 +68,17 @@ class APITest < Minitest::Test
 
   def config
 
-    $LOAD_PATH.unshift(File.dirname(__FILE__))
-    @srv = Service.create JSON.parse(File.read('data/service.json'))
+    @path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../data' )
+    p @path
+    @srv = Service.create JSON.parse(File.read( @path +'service.json'))
     @srv.save
 
     #p "id = #{@srv.id}"
     #p @srv.class.ancestors
 
-    @node1 = Node.create JSON.parse(File.read('data/node1.json'))
+    @node1 = Node.create JSON.parse(File.read( @path + 'node1.json'))
     @node1.save
-    @node2 = Node.create JSON.parse(File.read('data/node2.json'))
+    @node2 = Node.create JSON.parse(File.read( @path + 'node2.json'))
     @node2.save
   end
 
