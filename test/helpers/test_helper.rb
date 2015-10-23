@@ -73,6 +73,7 @@ class APITest < Minitest::Test
     @srv = Service.create JSON.parse(File.read( @path +'service.json'))
     @srv.save
 
+    
     #p "id = #{@srv.id}"
     #p @srv.class.ancestors
 
