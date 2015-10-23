@@ -9,7 +9,7 @@ gemfile:
   - gemfiles
   - Gemfile
 bundler_args: --without yard guard benchmarks
-script: "bundle exec rake ci"
+script: bundle exec rake
 deploy:
   provider: heroku
   api_key:
