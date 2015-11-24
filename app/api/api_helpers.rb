@@ -20,6 +20,10 @@ module ApiHelpers
         'Offer'
       when 'e'
         'Event'
+      when 'i'
+        'Info'
+      when 'c'
+        'Carrier'
       else
         ''
     end

@@ -13,6 +13,8 @@ class Supply < Ohm::Model
   attribute :state
   attribute :parentid
 
+  reference :node, :Node
+
   unique :msgid
   index  :parentid
 

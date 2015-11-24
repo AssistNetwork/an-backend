@@ -1,4 +1,3 @@
-/Gemfile.lock
 .idea/
 test/coveralls
 test_src
@@ -10,8 +9,6 @@ test_src
 InstalledFiles
 _yardoc
 coverage
-/.gemfiles/ohm-stateful-model-1.0.0.gem.old
-/.gemfiles/ohm-zset-0.6.gem.old
 doc
 lib/bundler/man
 pkg

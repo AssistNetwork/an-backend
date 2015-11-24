@@ -81,6 +81,14 @@ class APITest < Minitest::Test
     @node1.save
     @node2 = Node.create JSON.parse(File.read( @path + 'node2.json'))
     @node2.save
+
+    @user1 = User.create JSON.parse(File.read( @path + 'user1.json'))
+    @user1.save
+    @user2 = User.create JSON.parse(File.read( @path + 'user2.json'))
+    @user2.save
+    @user3 = User.create JSON.parse(File.read( @path + 'user3.json'))
+    @user3.save
+
   end
 
 =begin

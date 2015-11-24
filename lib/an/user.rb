@@ -3,12 +3,19 @@ require 'ohm'
 class User < Ohm::Model
 
   attribute :name
-  unique :name
+  index :name
   attribute :email
   unique :email
-  attribute :salt
+  #attribute :salt
 
-  collection :profiles, :Profile
+  #collection :profiles, :Profile
 
+  def checkin(node)
+    node.checkin self
+  end
+
+  def checkout(node)
+    node.checkout self
+  end
 
 end

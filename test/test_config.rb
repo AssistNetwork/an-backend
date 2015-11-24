@@ -9,21 +9,38 @@ class TestConfig < APITest
     assert srv.network, 'an'
     srv.register_node @node1
     srv.register_node @node2
-    assert srv.registrations[1], @node1
-    assert srv.registrations[2], @node2
-    srv.deregister_node @node1
-    assert srv.registrations.size, 1
-    assert srv.registrations[2], @node2
-    srv.deregister_node @node2
+    assert_equal srv.registrations[1].node, @node1
+    assert_equal srv.registrations[2].node, @node2
+    srv.unregister_node @node1
+    assert_equal srv.registrations[1], NIL # töröltük a node1 regisztrációját
+    assert_equal srv.registrations.size, 2 # az array size marad 2!
+    assert_equal srv.registrations[2].node, @node2
+    srv.unregister_node @node2
     assert srv.registrations.size, 0
   end
 
   def test_node
     srv = Service[1]
     @node1.register_to_service srv
-    assert srv.registrations[1], @node1
+    assert_equal srv.registrations[1].node, @node1
     @node2.register_to_service srv
-    assert srv.registrations[2], @node2
+    assert_equal srv.registrations[2].node , @node2
+  end
+
+  def test_user
+    @node1.register_profile(@user1)
+    @node1.register_profile(@user2)
+    assert_equal @node1.profiles[1].user, @user1
+    assert_equal @node1.profiles[2].user , @user2
+    assert_equal @node1.profiles[3], NIL
+    assert_equal @node1.profiles.size, 2
+
+    @node2.register_profile(@user3)
+    p @node1.profiles.size.to_s
+    p @node1.profiles[1].class.to_s
+    p @node2.profiles[3].class.to_s
+    assert_equal @node2.profiles[3].user, @user3
+
   end
 
 end

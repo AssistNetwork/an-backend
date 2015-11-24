@@ -10,11 +10,12 @@ class Service < Ohm::Model
   unique :network
 
   set :registrations, :Registration
+#  collection :connection, :Connection
 
 
   def register_node (node)
 
-    if !node.nil? and Registration[node.id].nil?
+    if !node.nil? and self.registrations[node.id].nil?
       reg = Registration.create(created: Time.now.to_s)
       reg.update(node:node)
       self.registrations.add reg
@@ -22,9 +23,10 @@ class Service < Ohm::Model
     end
   end
 
-  def deregister_node (node)
+  def unregister_node (node)
     if !self.registrations.nil? and !node.nil?
       self.registrations[node.id].delete
+      self.save
       TRUE
     else
       NIL

@@ -46,6 +46,7 @@ module AN
           {200, {'Content-Type' => 'application/xml'}, {'<foo><bar>baz</bar></foo>'}}
         end
 =end
+      'tested'
       end
     end
 
@@ -59,8 +60,8 @@ module AN
 
       desc 'Receive AN messages in batch'
       params do
-        requires :network, type: String, desc:'Assist-Network, Default:an'
-        requires :node, type: String, desc: 'AN-Node ID'
+        requires :service, type: String, desc:'Assist-Network, Default:an'
+        requires :node, type: String, desc: 'Node ID'
         requires :msg, type: Array, desc: 'Messages'
       end
       post do
@@ -90,26 +91,73 @@ module AN
                   if object.nil?
                     # create
                     object = clazz.create(m.content)
-                    object.msgid = m.content.msgid
-                    node.attribute_type(m.cmd).send('add', object )
-                    node.save
-                    resp.push({:object => m.cmd + object.msgid.to_s, :success => true})
+#                    object.msgid = m.content.msgid
+                    object.node = node
+                    object.save
+#                    node.attribute_type(m.cmd).send('add', object )
+#                    node.save
+                    resp.push({:object => m.cmd + object.msgid.to_s, :state => 'created'})
                   else
                     object.update( m.content )
-                    resp.push({:object => m.cmd + object.msgid.to_s, :success => true})
+                    resp.push({:object => m.cmd + object.msgid.to_s, :state => 'updated'})
                   end
                 else
-                  resp.push({:error => 'MSGID Error: Null identifier', :success => false})
+                  resp.push({:error => 'MSGID Error: Null identifier', :state => 'null'})
                 end
               }
-
             end
-
-            { result: resp.to_s, success: true }
+            { :result => resp , :success => true }
           end
         end
       end
 
+      desc 'Response AN objects in batch'
+      params do
+        requires :service, type: String, desc:'Assist-Network, Default:an'
+        requires :node, type: String, desc: 'Node ID'
+        requires :query, type: Hash, desc: 'Query'
+        optional :page_num, type: Numeric, desc: 'Paginate page number'
+        optional :limit, type: Numeric, desc: 'Paginate limit on page'
+      end
+      get do
+        begin
+          node = Node[(params[:node])]
+          if node.nil?
+            {:error => 'Wrong node ID'}
+          else
+            resp = Array.new
+            q = params[:query]
+            begin
+              # logger.info m.to_s
+              clazz = Object.const_get(cmd_type(q.type))
+            rescue NameError
+              {:error => 'Wrong object type'}
+            end
+            if clazz.nil? or !clazz.ancestors.include?(Ohm::Model)
+              {:error => 'ModelError: Wrong object model'}
+            end
+            rescue_db_errors {
+              if q.filter.msgid.nil?
+                resp.push({:error => 'MSGID Error or Not Found', :success => false})
+              else
+                result = Array.new # TODO befejezni
+                result = clazz.find(:msgid => q.filter.msgid) # TODO Lista kezelés
+                unless result.nil?
+#                  resp.push({:result => result.each {|r| r.to_hash }, :success => true}) # Paginate nélkül
+                  resp.push({:result => paginate(result, params[:page_num], params[:limit]), :success => true})
+                else
+                  resp.push({:result => {}, :success => true})
+                end
+
+              end
+              }
+            resp
+          end
+        end
+      end
+    end
+
+=begin
       desc 'Return a Message'
       params do
         requires :network, type: String, desc:'Assist-Network, Default:an'
@@ -139,8 +187,7 @@ module AN
       end
     end
 
-=begin
-      desc 'Create an AN-MSG Post'
+      desc 'List a MSG'
       params do
         requires :network, type: String, desc:'Assist-Network, Default:an'
         requires :node, type: Integer, desc: 'AN-Node ID'
@@ -389,6 +436,7 @@ module AN
         {:success => success, :flow => flow.to_hash}
         end
 =end
-  end
 
+  end
 end
+

@@ -5,6 +5,7 @@ require_relative 'demand'
 require_relative 'supply'
 require_relative 'offer_flow'
 require_relative 'event'
+require_relative 'profile'
 
 
 
@@ -14,7 +15,6 @@ class Node < Ohm::Model
   unique :name
   attribute :location
 
-  collection :registrations, :Registration
 #  attribute :phone
 #  attribute :email
 #  unique :email
@@ -23,10 +23,15 @@ class Node < Ohm::Model
 
   attribute :store
 
-  set :demands, :Demand
-  set :supplies, :Supply
+  set :profiles, :Profile
+
+  collection :demands, :Demand
+  collection :supplies, :Supply
   set :offers, :OfferFlow
   set :events, :Event
+
+  set :presents, Hash
+
 
   def register_to_service(service)
     # generate ID:= :network + unique ID (global a network-re)
@@ -36,18 +41,39 @@ class Node < Ohm::Model
     end
   end
 
-  def derregister_from_service(service)
+  def unregister_from_service(service)
     # generate ID:= :network + unique ID (global a network-re)
-    service.deregister_node self
+    service.unregister_node self
   end
 
-  def login
+  def register_profile(user,scope ='user')
+    if !user.nil? and self.profiles[user.id].nil?
+      prf = Profile.create(created: Time.now.to_s)
+      prf.update(user: user, scope: scope)
+      self.profiles.add prf
+      self.save
+    end
+  end
+
+  def unregister_profile(user)
+    if !self.profiles.nil? and !user.nil?
+      self.profiles[user.id].delete
+      TRUE
+    else
+      NIL
+    end
+  end
+
+  def checkin(user)
     # TODO: így a userek <> node, azaz lehet több user is ugyanahoz a node-hoz rendelve // OAuth2??? csináljuk rendesen :)
     # authorize!
+
+    @presents[user.id]= TRUE
   end
 
-  def logout
-
+  def checkout
+    # authorize!
+    @presents[user.id]= FALSE
   end
 
   def set_profile

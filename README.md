@@ -8,11 +8,15 @@ This is.
 
 There is a lot to do.
 
-0. megfelelő config file-ok: Gemfile, .gemspec, .travis.yml, ...
-1. local dev and travis-ci test sample with minitest 
-2. backend authorization https://intridea.github.io/grape/docs/Grape/Middleware/Auth/OAuth2.html ???
-3. api functional testing
-4. api non functional testing
+0. setting config files to work locally AND on test and product environment: Gemfile, .gemspec, .travis.yml, ...
+1. local dev and travis-ci test sample with minitest - done
+2. backend authorization https://intridea.github.io/grape/docs/Grape/Middleware/Auth/OAuth2.html ??? - see an-auth repo
+3. api functional testing - see test folder
+4. api non functional testing - later
+- backup/restore
+- distributed environment
+- performance/scalability
+- security
 5. 
 
 
@@ -20,9 +24,9 @@ Endpoints
 
 api/com
 api/object
-api/flow
 
 and will come
+api/flow
 api/auth
 api/admin/node
 api/admin/network
@@ -81,7 +85,7 @@ COM packet structure:  Who ( network+node ), What ( cmd, what ), When ( start, e
 
 }
 
-What main taxonomy:
+Main taxonomy: 
 
 g - Goods
 s - Services

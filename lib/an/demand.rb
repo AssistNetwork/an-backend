@@ -13,7 +13,10 @@ class Demand < Ohm::Model
   attribute :state
   attribute :parentid
 
-  unique :msgid
+  reference :node, :Node
+#  reference :user, :User
+
+  index :msgid
   index  :parentid
 
 #  def initialize
