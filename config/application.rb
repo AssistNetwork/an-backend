@@ -6,6 +6,11 @@ ENV['RACK_ENV'] ||= 'development'
 require 'bundler/setup'
 require 'logger'
 
+require 'ohm'
+require_relative '../lib/an/service'
+require_relative '../lib/an/node'
+require_relative '../lib/an/user'
+
 module AN
   class << self
 
@@ -22,10 +27,10 @@ module AN
     end
 
     def test_data
-      Ohm.redis = Redic.new(self.redis)
+      Ohm.redis = Redic.new(@configuration.redis)
       Ohm.redis.call("FLUSHALL")
 
-      path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../../test/data' )
+      path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../test/data' )
 
       srv = Service.create JSON.parse(File.read( path +'service.json'))
       srv.save
