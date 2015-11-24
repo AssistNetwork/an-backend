@@ -56,10 +56,12 @@ class APITest < Minitest::Test
 #  include Swagger::Test
 
   def setup
-    Ohm.redis = Redic.new("redis://127.0.0.1:6379")
+    Ohm.redis = ENV['REDISCLOUD_URL']
+    Ohm.redis ||= Redic.new("redis://127.0.0.1:6379")
     Ohm.redis.call("FLUSHALL")
     AN.initialize!
-    config
+    #config
+    @path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../data' )
   end
 
   def app
@@ -68,8 +70,6 @@ class APITest < Minitest::Test
 
   def config
 
-    @path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../data' )
-    p @path
     @srv = Service.create JSON.parse(File.read( @path +'service.json'))
     @srv.save
 
