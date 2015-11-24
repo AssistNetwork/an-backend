@@ -4,6 +4,7 @@
 ENV['RACK_ENV'] ||= 'development'
 
 require 'bundler/setup'
+require 'logger'
 
 module AN
   class << self
