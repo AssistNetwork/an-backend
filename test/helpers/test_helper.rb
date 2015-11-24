@@ -56,11 +56,11 @@ class APITest < Minitest::Test
 #  include Swagger::Test
 
   def setup
-    Ohm.redis = ENV['REDIS_URL']
-    Ohm.redis ||= Redic.new("redis://127.0.0.1:6379")
-    Ohm.redis.call("FLUSHALL")
+#    Ohm.redis = ENV['REDIS_URL']
+#    Ohm.redis ||= Redic.new("redis://127.0.0.1:6379")
+#    Ohm.redis.call("FLUSHALL")
     AN.initialize!
-    #config
+#    config
     @path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../data' )
   end
 
@@ -68,28 +68,24 @@ class APITest < Minitest::Test
     AN::V1
   end
 
-  def config
+#  def config
 
-    @srv = Service.create JSON.parse(File.read( @path +'service.json'))
-    @srv.save
+#    @srv = Service.create JSON.parse(File.read( @path +'service.json'))
+#    @srv.save
 
+#    @node1 = Node.create JSON.parse(File.read( @path + 'node1.json'))
+#    @node1.save
+#    @node2 = Node.create JSON.parse(File.read( @path + 'node2.json'))
+#    @node2.save
 
-    #p "id = #{@srv.id}"
-    #p @srv.class.ancestors
-
-    @node1 = Node.create JSON.parse(File.read( @path + 'node1.json'))
-    @node1.save
-    @node2 = Node.create JSON.parse(File.read( @path + 'node2.json'))
-    @node2.save
-
-    @user1 = User.create JSON.parse(File.read( @path + 'user1.json'))
-    @user1.save
-    @user2 = User.create JSON.parse(File.read( @path + 'user2.json'))
-    @user2.save
-    @user3 = User.create JSON.parse(File.read( @path + 'user3.json'))
-    @user3.save
-
-  end
+#    @user1 = User.create JSON.parse(File.read( @path + 'user1.json'))
+#    @user1.save
+#    @user2 = User.create JSON.parse(File.read( @path + 'user2.json'))
+#    @user2.save
+#    @user3 = User.create JSON.parse(File.read( @path + 'user3.json'))
+#    @user3.save
+#
+#  end
 
 =begin
   swagger.path = '/api'

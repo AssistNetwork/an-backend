@@ -2,29 +2,37 @@ Dir[File.expand_path('helpers/**/*.rb', __dir__)].reduce(self, :require)
 
 class TestConfig < APITest
 
+  def setup
+    @node1 = Node[1]
+    @node2 = Node[2]
+    @srv = Service[1]
+    @user1 = User[1]
+    @user2 = User[2]
+    @user3 = User[3]
+  end
 
   def test_service
-    srv = Service[1]
-    assert srv.name, 'assist-network'
-    assert srv.network, 'an'
-    srv.register_node @node1
-    srv.register_node @node2
-    assert_equal srv.registrations[1].node, @node1
-    assert_equal srv.registrations[2].node, @node2
-    srv.unregister_node @node1
-    assert_equal srv.registrations[1], NIL # töröltük a node1 regisztrációját
-    assert_equal srv.registrations.size, 2 # az array size marad 2!
-    assert_equal srv.registrations[2].node, @node2
-    srv.unregister_node @node2
-    assert srv.registrations.size, 0
+
+    assert @srv.name, 'assist-network'
+    assert @srv.network, 'an'
+    @srv.register_node @node1
+    @srv.register_node @node2
+    assert_equal @srv.registrations[1].node, @node1
+    assert_equal @srv.registrations[2].node, @node2
+    @srv.unregister_node @node1
+    assert_equal @srv.registrations[1], NIL # töröltük a node1 regisztrációját
+    assert_equal @srv.registrations.size, 2 # az array size marad 2!
+    assert_equal @srv.registrations[2].node, @node2
+    @srv.unregister_node @node2
+    assert @srv.registrations.size, 0
   end
 
   def test_node
-    srv = Service[1]
-    @node1.register_to_service srv
-    assert_equal srv.registrations[1].node, @node1
-    @node2.register_to_service srv
-    assert_equal srv.registrations[2].node , @node2
+    @srv = Service[1]
+    @node1.register_to_service @srv
+    assert_equal @srv.registrations[1].node, @node1
+    @node2.register_to_service @srv
+    assert_equal @srv.registrations[2].node , @node2
   end
 
   def test_user
