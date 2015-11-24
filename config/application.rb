@@ -21,8 +21,31 @@ module AN
       @logger.info 'started'
     end
 
+    def test_data
+      Ohm.redis = Redic.new(self.redis)
+      Ohm.redis.call("FLUSHALL")
+
+      path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../../test/data' )
+
+      srv = Service.create JSON.parse(File.read( path +'service.json'))
+      srv.save
+      node1 = Node.create JSON.parse(File.read( path + 'node1.json'))
+      node1.save
+      node2 = Node.create JSON.parse(File.read( path + 'node2.json'))
+      node2.save
+      user1 = User.create JSON.parse(File.read( path + 'user1.json'))
+      user1.save
+      user2 = User.create JSON.parse(File.read( path + 'user2.json'))
+      user2.save
+      user3 = User.create JSON.parse(File.read( path + 'user3.json'))
+      user3.save
+    end
+
+
+
     def initialize!(**options)
       @configuration
+      test_data # minden indulásnál üres db-vel fog indulni
     end
 
     def heroku?
@@ -52,7 +75,6 @@ module AN
       Dir[File.expand_path('../app/api/**/*.rb', __dir__)].reduce(self, :require)
 
       Rack::Builder.new do
-
         run ::AN::V1
       end
 
