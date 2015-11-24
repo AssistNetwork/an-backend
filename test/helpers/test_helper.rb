@@ -56,7 +56,7 @@ class APITest < Minitest::Test
 #  include Swagger::Test
 
   def setup
-    Ohm.redis = ENV['REDISCLOUD_URL']
+    Ohm.redis = ENV['REDIS_URL']
     Ohm.redis ||= Redic.new("redis://127.0.0.1:6379")
     Ohm.redis.call("FLUSHALL")
     AN.initialize!
