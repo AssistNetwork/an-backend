@@ -13,12 +13,12 @@ module AN
     format :json
     version %w{ v1 }, using: :header, vendor: 'assist-network', format: :json
 
-    use Rack::Cors do
-      allow do
-        origins '*'
-        resource '*', headers: :any, methods: [:get, :post, :put, :delete]
-      end
-    end
+#    use Rack::Cors do
+#      allow do
+#        origins '*'
+#        resource '*', headers: :any, methods: [:get, :post, :put, :delete]
+#      end
+#    end
 
     use Grape::Middleware::Logger
 

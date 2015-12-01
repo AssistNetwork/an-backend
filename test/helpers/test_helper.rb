@@ -68,7 +68,7 @@ class APITest < Minitest::Test
     AN::V1
   end
 
-#  def config 
+#  def config
 
 #    @srv = Service.create JSON.parse(File.read( @path +'service.json'))
 #    @srv.save

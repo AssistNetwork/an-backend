@@ -1,47 +1,49 @@
-{
-  "service": "an",
+{ "service": "an",
   "node":"1",
-  "msg":  [
-            {
-              "cmd": "d",
-              "content": {
-                "msgid": "1",
-                "what": "/clth/shoe/man::2 pcs",
-                "start": "2015.10.16 08:00",
-                "end": "",
-                "where": "loc1",
-                "reason": "",
-                "state": "",
-                "parentid": ""
-              }
-            },
-            {
-              "cmd": "s",
-              "content": {
-                "msgid": "1",
-                "what": "/clth/shoe/woman:37:3 pcs",
-                "start": "2015.10.16 09:00",
-                "end": "",
-                "where": "loc2",
-                "reason": "",
-                "state": "",
-                "parentid": ""
-              }
-            },
-            {
-              "cmd": "d",
-              "content": {
-                "msgid": "2",
-                "what": "/food/veget/turnip::5 kg",
-                "start": "2015.10.16 09:00",
-                "end": "",
-                "where": "loc3",
-                "reason": "",
-                "state": "",
-                "parentid": ""
-              }
-            }
-          ]
+  "msg":
+    [
+      {
+        "cmd": "d",
+        "content":
+          {
+            "msgid": "1",
+            "what": "/clth/shoe/man::2 pcs",
+            "start": "2015.10.16 08:00",
+            "end": "",
+            "where": "loc1",
+            "reason": "",
+            "state": "",
+            "parentid": ""
+          }
+      },
+      {
+        "cmd": "s",
+        "content":
+          {
+            "msgid": "1",
+            "what": "/clth/shoe/woman:37:3 pcs",
+            "start": "2015.10.16 09:00",
+            "end": "",
+            "where": "loc2",
+            "reason": "",
+            "state": "",
+            "parentid": ""
+          }
+      },
+      {
+        "cmd": "d",
+        "content": {
+          "msgid": "2",
+          "what": "/food/veget/turnip::5 kg",
+          "start": "2015.10.16 09:00",
+          "end": "",
+          "where": "loc3",
+          "reason": "",
+          "state": "",
+          "parentid": ""
+        }
+      }
+    ]
 
 }
 
