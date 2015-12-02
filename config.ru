@@ -1,7 +1,7 @@
 #\ -s puma
 
 require 'rack/cors'
-require_relative 'config/environment'
+require 'config/environment'
 
 use Rack::Cors do
   allow do
