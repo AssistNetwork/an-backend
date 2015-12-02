@@ -50,6 +50,16 @@ module AN
       end
     end
 
+    resource :taxonomy do
+      get do
+        path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../taxonomy/' )
+        data = JSON.parse(File.read(path + 'taxonomy.json'))
+        {"result"=> data,
+         "updated"=>Time.now,
+        :success => true}
+      end
+    end
+
     # AN COM handling
     resource :com do
 
