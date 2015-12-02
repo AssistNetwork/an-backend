@@ -24,9 +24,12 @@ module AN
 
     use Rack::Session::Cookie, secret: ::AN.configuration.session_secret
 
+
+
     desc 'Returns current API version and environment.'
     get do
-      { version: 'v1', environment: ENV['RACK_ENV'] }
+      tpath = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../taxonomy/' )
+      { version: 'v1', environment: ENV['RACK_ENV'] , taxonomy: File.mtime(tpath +'taxonomy.json')}
     end
 
     # testing
@@ -52,11 +55,8 @@ module AN
 
     resource :taxonomy do
       get do
-        path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../taxonomy/' )
-        data = JSON.parse(File.read(path + 'taxonomy.json'))
-        {"result"=> data,
-         "updated"=>Time.now,
-        :success => true}
+        tpath = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../taxonomy/' )
+        JSON.parse(File.read(tpath + 'taxonomy.json'))
       end
     end
 
@@ -220,8 +220,6 @@ module AN
           paginate(set, params[:page], params[:limit])
         end
       end
-
-
 
 
       desc 'Create/Update an object'
@@ -446,6 +444,7 @@ module AN
         {:success => success, :flow => flow.to_hash}
         end
 =end
+
 
   end
 end
