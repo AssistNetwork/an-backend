@@ -6,10 +6,15 @@
       "cmd": "d",
       "content": {
         "msgid": "3",
-        "what": "/clth/shoe/man::3 pcs",
+        "what": "g/clth/shoe/man",
+        "attrs":["42","valami"],
+        "attrsnot": ["félcipő"],
+        "qty":"3",
+        "unit":"pcs",
+        "long":"",
+        "lat":"",
         "start": "2015.11.16 08:00",
         "end": "",
-        "where": "loc1",
         "reason": "",
         "state": "",
         "parentid": ""

@@ -6,9 +6,14 @@ class Supply < Ohm::Model
 
   attribute :msgid
   attribute :what   # mit: a szokásos command
+  set :attrs, Array # attributumok
+  attribute :qty  #mennyiség
+  attribute :unit  # egység
+  attribute :end      # meddig
+  attribute :long    # hol long
+  attribute :lat     # hol lat
   attribute :start  # mettől
   attribute :end    # meddig
-  attribute :where  # hol?
   attribute :reason
   attribute :state
   attribute :parentid

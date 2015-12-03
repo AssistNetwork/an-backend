@@ -99,13 +99,9 @@ module AN
                 if !m.content.msgid.nil?
                   object = clazz[m.content.msgid]
                   if object.nil?
-                    # create
                     object = clazz.create(m.content)
-#                    object.msgid = m.content.msgid
                     object.node = node
                     object.save
-#                    node.attribute_type(m.cmd).send('add', object )
-#                    node.save
                     resp.push({:object => m.cmd + object.msgid.to_s, :state => 'created'})
                   else
                     object.update( m.content )
