@@ -9,6 +9,9 @@ class User < Ohm::Model
 
   attribute :auth_token
   unique :auth_token
+
+  attribute :uid
+  unique :uid
   #attribute :salt
 
   #collection :profiles, :Profile

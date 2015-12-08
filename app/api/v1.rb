@@ -74,7 +74,7 @@ module AN
             {:error => 'Wrong node ID'}
           else
             user = User[(params[:email])]
-            {:succes => true, :name => user.name, :auth_token => user.auth_token}
+            {:succes => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token}
           end
         end
       end
