@@ -1,14 +1,12 @@
 Dir[File.expand_path('helpers/**/*.rb', __dir__)].reduce(self, :require)
 
+
 class TestConfig < APITest
 
   def setup
     @node1 = Node[1]
     @node2 = Node[2]
     @srv = Service[1]
-    @user1 = User[1]
-    @user2 = User[2]
-    @user3 = User[3]
   end
 
   def test_service
@@ -40,18 +38,25 @@ class TestConfig < APITest
   end
 
   def test_user
-    @node1.register_profile(@user1)
-    @node1.register_profile(@user2)
-    assert_equal @node1.profiles[1].user, @user1
-    assert_equal @node1.profiles[2].user , @user2
-    assert_equal @node1.profiles[3], NIL
-    assert_equal @node1.profiles.size, 2
+    @path = Pathname(File.expand_path(File.dirname(__FILE__)) + '/data' )
+    @user4 = User.create JSON.parse(File.read(@path + 'user4.json'))
+    @user5 = User.create JSON.parse(File.read(@path + 'user5.json'))
+    @user6 = User.create JSON.parse(File.read(@path + 'user6.json'))
+    @user4.save
+    @user5.save
+    @user6.save
+    @node1.register_profile(@user4)
+    @node1.register_profile(@user5)
+    assert_equal @node1.profiles[4].user, @user4
+    assert_equal @node1.profiles[5].user , @user5
+    assert_equal @node1.profiles[6], NIL
+    assert_equal @node1.profiles.size, 4
 
-    @node2.register_profile(@user3)
+    @node2.register_profile(@user6)
     p @node1.profiles.size.to_s
-    p @node1.profiles[1].class.to_s
-    p @node2.profiles[3].class.to_s
-    assert_equal @node2.profiles[3].user, @user3
+    p @node1.profiles[4].class.to_s
+    p @node2.profiles[5].class.to_s
+    assert_equal @node2.profiles[6].user, @user6
 
   end
 

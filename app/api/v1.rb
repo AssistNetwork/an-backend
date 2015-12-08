@@ -60,6 +60,28 @@ module AN
       end
     end
 
+    resource :login do
+      params do
+        requires :email, type: String, desc:'user login with email'
+        requires :node, type: String, desc: 'Node ID'
+      end
+      desc 'login'
+      get do
+        #authenticate!
+        begin
+          node = Node[(params[:node])]
+          if node.nil?
+            {:error => 'Wrong node ID'}
+          else
+            user = User[(params[:email])]
+            {:succes => true, :name => user.name, :auth_token => user.auth_token}
+          end
+        end
+      end
+
+    end
+
+
     # AN COM handling
     resource :com do
 

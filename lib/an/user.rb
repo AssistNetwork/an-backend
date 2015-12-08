@@ -6,6 +6,9 @@ class User < Ohm::Model
   index :name
   attribute :email
   unique :email
+
+  attribute :auth_token
+  unique :auth_token
   #attribute :salt
 
   #collection :profiles, :Profile

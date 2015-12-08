@@ -44,6 +44,12 @@ module AN
       @user2.save
       @user3 = User.create JSON.parse(File.read( @path + 'user3.json'))
       @user3.save
+
+      @node1.register_profile(@user1)
+      @node1.register_profile(@user2)
+      @node2.register_profile(@user3)
+      @node1.save
+      @node2.save
     end
 
 
