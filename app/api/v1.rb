@@ -73,8 +73,12 @@ module AN
           if node.nil?
             {:error => 'Wrong node ID'}
           else
-            user = User[(params[:email])]
+            user = User.find(:email => (params[:email])).first
+            if user.nil?
+              {:succes => false}
+            else
             {:succes => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token}
+            end
           end
         end
       end

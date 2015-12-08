@@ -4,7 +4,9 @@ class User < Ohm::Model
 
   attribute :name
   index :name
+
   attribute :email
+  index :email
   unique :email
 
   attribute :auth_token
