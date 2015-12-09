@@ -75,9 +75,9 @@ module AN
           else
             user = User.find(:email => (params[:email])).first
             if user.nil?
-              {:succes => false}
+              {:success => false}
             else
-            {:succes => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token}
+            {:success => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token}
             end
           end
         end
