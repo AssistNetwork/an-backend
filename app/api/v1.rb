@@ -90,6 +90,7 @@ module AN
       params do
         requires :email, type: String, desc:'user login with email'
         requires :node, type: String, desc: 'Node ID'
+        requires :pos, type: String, desc: 'Current Position'
       end
       desc 'login'
       get do
@@ -135,6 +136,7 @@ module AN
       params do
         requires :auth_token, type: String, desc:'Auth Token'
         requires :node, type: String, desc: 'Node ID'
+        requires :lastts, type: String, desc: 'Last Timestamp'
       end
       desc 'notification'
       get do
@@ -144,7 +146,7 @@ module AN
           if node.nil?
             {:error => 'Wrong node ID'}
           else
-            result = Notification.find(:node => (params[:node]), :created_at => Time.now )
+            result = Notification.find(:node => (params[:node]), :created_at => params[:lastts] )
             if user.nil?
               {:success => false}
             else
