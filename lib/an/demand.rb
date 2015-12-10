@@ -19,7 +19,6 @@ class Demand < Ohm::Model
   attribute :start  # mettől
   attribute :end    # meddig
 
-  attribute :match  # match
   attribute :public # public listings
 
   attribute :reason
