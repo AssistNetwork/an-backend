@@ -8,7 +8,7 @@ class Session < Ohm::Model
 
   attribute :state
 
-  reference :node, :Node
+  collection :nodes, :Node
   reference :user, :User
 
   index :auth_token
@@ -16,6 +16,7 @@ class Session < Ohm::Model
 
   def Initialize(auth_token)
     @auth_token = auth_token
+
   end
 
   def to_hash

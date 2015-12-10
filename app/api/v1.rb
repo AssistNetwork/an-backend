@@ -83,7 +83,7 @@ module AN
         end
       end
       post do
-        authenticate!(@auth_token)
+#        authenticate!(@auth_token)
         begin
           node = Node[(params[:node])]
           if node.nil?
@@ -119,7 +119,7 @@ module AN
               {:success => false}
             else
               user.auth_token = session(@auth_token) unless user.auth_token.nil?
-              {:success => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token} # TODO check!
+              {:success => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token, :syncdata => node.syncdata } # TODO check!
             end
           end
         end
