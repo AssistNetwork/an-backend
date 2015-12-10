@@ -64,24 +64,9 @@ module AN
       params do
         requires :auth_token, type: String, desc:'Auth Token'
         requires :node, type: String, desc: 'Node ID'
-        optional :syncdata, type: String, desc: 'Sync Data'
+        requires :syncdata, type: String, desc: 'Sync Data'
       end
-      get do
-        authenticate!(@auth_token)
-        begin
-          node = Node[(params[:node])]
-          if node.nil?
-            {:error => 'Wrong node ID'}
-          else
-            session = Session.find(:user => (params[:uid])).first
-            if session.nil?
-              session.new (@auth_token)
-            else
-              {:success => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token}
-            end
-          end
-        end
-      end
+
       post do
 #        authenticate!(@auth_token)
         begin
@@ -89,10 +74,10 @@ module AN
           if node.nil?
             {:error => 'Wrong node ID'}
           else
-            if @syncdata.nil?
+            if params[:syncdata].nil?
               {:success => false, :reason => 'SyncData is Null'}
             else
-              node.syncdata = @syncdata
+              node.syncdata = params[:syncdata]
               node.save
               {:success => true}
             end
