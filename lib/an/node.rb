@@ -23,11 +23,11 @@ class Node < Ohm::Model
 
   attribute :syncdata
 
-  set :profiles, :Profile
+  collection :profiles, :Profile
 
   collection :demands, :Demand
   collection :supplies, :Supply
-  set :offers, :OfferFlow
+  collection :offers, :OfferFlow
   set :events, :Event
 
   set :presents, Hash
@@ -49,8 +49,7 @@ class Node < Ohm::Model
   def register_profile(user,scope ='user')
     if !user.nil? and self.profiles[user.id].nil?
       prf = Profile.create(created: Time.now.to_s)
-      prf.update(user: user, scope: scope)
-      self.profiles.add prf
+      prf.update(user: user, scope: scope, node: self)
       self.save
     end
   end

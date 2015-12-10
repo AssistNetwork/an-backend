@@ -37,15 +37,12 @@ end
 module ApiHelpers
 
   def authenticate!(auth_token)
-    error!('401 Unauthorized', 401) unless !session(auth_token)
+    error!('401 Unauthorized', 401) unless session(auth_token)
   end
 
   def session(auth_token)
     session = Session[auth_token]
-    if session.nil?
-      #session = Session.new (auth_token)
-    end
-    "verysecretauthtoken1" # TODO generation Secret AUTH TOKEN!
+    !session.nil?
   end
 
   def delete_session(auth_token)

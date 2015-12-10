@@ -16,7 +16,7 @@ class User < Ohm::Model
   unique :uid
   #attribute :salt
 
-  #collection :profiles, :Profile
+  collection :profiles, :Profile
 
   def checkin(node)
     node.checkin self

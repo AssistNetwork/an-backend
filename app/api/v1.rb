@@ -68,7 +68,7 @@ module AN
       end
 
       post do
-#        authenticate!(params[:auth_token])
+        authenticate!(params[:auth_token])
         begin
           node = Node[(params[:node])]
           if node.nil?
@@ -79,7 +79,9 @@ module AN
             else
               node.syncdata = params[:syncdata]
               node.save
-#              Notification.create (:node => node, :cmd => 'sync', :data =>'', :event=>'synced')
+              n = Notification.create( cmd: 'sync', data: '', event: 'synced')
+              n.node = node
+              n.save
               {:success => true}
             end
           end
@@ -95,7 +97,6 @@ module AN
       end
       desc 'login'
       get do
-#        authenticate!(params[:auth_token])
         begin
           node = Node[(params[:node])]
           if node.nil?
@@ -105,8 +106,24 @@ module AN
             if user.nil?
               {:success => false}
             else
-              user.auth_token = session(@auth_token) unless user.auth_token.nil?
-              {:success => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token, :syncdata => node.syncdata } # TODO check!
+              a = Profile.find(user_id: user.id, node_id: node.id)
+              if a.nil?
+                # user.auth_token = NIL ha ki akarjuk tenni mindenből
+                n = Notification.create( cmd: 'i', data: 'Unathorized user login' + user.name , event: 'access violation')
+                n.node = node
+                n.save
+                {:success => false, :name => user.name, :uid => user.uid}
+              else
+                user.auth_token = session(@auth_token) unless user.auth_token.nil?
+                s = Session.create(auth_token: user.auth_token)
+                s.save
+                nodes = Array.new
+                user.profiles.each {|p| s.nodes.add p.node}
+                n = Notification.create( cmd: 'i', data: 'User logged' + user.name , event: 'logged')
+                n.node = node
+                n.save
+                {:success => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token, :syncdata => node.syncdata, :nodes => nodes} # TODO check!
+              end
             end
           end
         end
@@ -147,12 +164,8 @@ module AN
           if node.nil?
             {:error => 'Wrong node ID'}
           else
-            result = Notification.find(:node => (params[:node]), :created_at => params[:lastts] )
-            if user.nil?
-              {:success => false}
-            else
-              {:success => true, :result => result}
-            end
+            result = Notification.find( node: (params[:node]), created_at: params[:lastts] )
+            {:success => true, :result => result}
           end
         end
       end
@@ -203,11 +216,15 @@ module AN
                     object.node = node
                     object.save
                     resp.push({:object => m.cmd + object.msgid.to_s, :state => 'created'})
-#                    Notification.create (:node => node, :cmd => m.cmd, :data =>'msgid:'+object.msgid.to_s, :event=>'created')
+                    n = Notification.create( cmd: m.cmd, data: '', event: 'created')
+                    n.node = node
+                    n.save
                   else
                     object.update( m.content )
                     resp.push({:object => m.cmd + object.msgid.to_s, :state => 'updated'})
-#                    Notification.create (:node => node, :cmd => m.cmd, :data =>'msgid:'+object.msgid.to_s, :event=>'updated')
+                    Notification.create(cmd: m.cmd, data: '', event: 'updated')
+                    n.node = node
+                    n.save
                   end
                 else
                   resp.push({:error => 'MSGID Error: Null identifier', :state => 'null'})
