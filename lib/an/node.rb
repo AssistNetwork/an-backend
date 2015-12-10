@@ -21,7 +21,7 @@ class Node < Ohm::Model
   attribute :with_transport
 
 
-  attribute :store
+  attribute :syncdata
 
   set :profiles, :Profile
 

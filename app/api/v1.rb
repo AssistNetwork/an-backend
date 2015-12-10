@@ -29,7 +29,7 @@ module AN
     desc 'Returns current API version and environment.'
     get do
       tpath = Pathname(File.expand_path(File.dirname(__FILE__)) + '/../taxonomy/' )
-      { version: 'v1', environment: ENV['RACK_ENV'] , taxonomy: File.mtime(tpath +'taxonomy.json')}
+      { version: 'v1', environment: ENV['RACK_ENV'] , taxonomy: File.mtime(tpath +'taxonomy.json').to_i}
     end
 
     # testing
@@ -60,6 +60,47 @@ module AN
       end
     end
 
+    resource :session do
+      params do
+        requires :auth_token, type: String, desc:'Auth Token'
+        requires :node, type: String, desc: 'Node ID'
+        optional :syncdata, type: String, desc: 'Sync Data'
+      end
+      get do
+        authenticate!(@auth_token)
+        begin
+          node = Node[(params[:node])]
+          if node.nil?
+            {:error => 'Wrong node ID'}
+          else
+            session = Session.find(:user => (params[:uid])).first
+            if session.nil?
+              session.new (@auth_token)
+            else
+              {:success => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token}
+            end
+          end
+        end
+      end
+      post do
+        authenticate!(@auth_token)
+        begin
+          node = Node[(params[:node])]
+          if node.nil?
+            {:error => 'Wrong node ID'}
+          else
+            if @syncdata.nil?
+              {:success => false, :reason => 'SyncData is Null'}
+            else
+              node.syncdata = @syncdata
+              node.save
+              {:success => true}
+            end
+          end
+        end
+      end
+    end
+
     resource :login do
       params do
         requires :email, type: String, desc:'user login with email'
@@ -67,22 +108,66 @@ module AN
       end
       desc 'login'
       get do
-        #authenticate!
+#        authenticate!(@auth_token)
         begin
           node = Node[(params[:node])]
           if node.nil?
             {:error => 'Wrong node ID'}
           else
-            user = User.find(:email => (params[:email])).first
+            user = User.find(:email => (params[:email])).first # TODO Usert a Node-hoz checkin-elni. Ekkor létre jön a session.
             if user.nil?
               {:success => false}
             else
-            {:success => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token}
+              user.auth_token = session(@auth_token) unless user.auth_token.nil?
+              {:success => true, :name => user.name, :uid => user.uid, :auth_token => user.auth_token} # TODO check!
             end
           end
         end
       end
+    end
 
+    resource :logout do
+      params do
+        requires :auth_token, type: String, desc:'Auth Token'
+        requires :node, type: String, desc: 'Node ID'
+      end
+      desc 'logout'
+      get do
+        authenticate!(@auth_token)
+        begin
+          node = Node[(params[:node])]
+          if node.nil?
+            {:error => 'Wrong node ID'}
+          else
+            delete_session(@auth_token)
+            {:success => true, :name => user.name, :event => 'Logged out'}
+          end
+        end
+      end
+    end
+
+    resource :notification do
+      params do
+        requires :auth_token, type: String, desc:'Auth Token'
+        requires :node, type: String, desc: 'Node ID'
+      end
+      desc 'notification'
+      get do
+        authenticate!(@auth_token)
+        begin
+          node = Node[(params[:node])]
+          if node.nil?
+            {:error => 'Wrong node ID'}
+          else
+            result = Notification.find(:node => (params[:node]))
+            if user.nil?
+              {:success => false}
+            else
+              {:success => true, :result => result}
+            end
+          end
+        end
+      end
     end
 
 
@@ -97,6 +182,7 @@ module AN
       desc 'Receive AN messages in batch'
       params do
         requires :service, type: String, desc:'Assist-Network, Default:an'
+        requires :auth_token, type: String, desc:'Auth Token'
         requires :node, type: String, desc: 'Node ID'
         requires :msg, type: Array, desc: 'Messages'
       end
@@ -146,6 +232,7 @@ module AN
       desc 'Response AN objects in batch'
       params do
         requires :service, type: String, desc:'Assist-Network, Default:an'
+        requires :auth_token, type: String, desc:'Auth Token'
         requires :node, type: String, desc: 'Node ID'
         requires :query, type: Hash, desc: 'Query'
         optional :page_num, type: Numeric, desc: 'Paginate page number'

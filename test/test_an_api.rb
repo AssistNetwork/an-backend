@@ -16,7 +16,14 @@ class ANApi < APITest
   def test_api_works
     get '/api'
     assert last_response.ok?
-    assert JSON.parse(last_response.body), '{"version":"v1","environment":"development"}'
+    assert JSON.parse(last_response.body), {"version":"v1","environment":"development"}
+    p JSON.parse(last_response.body).to_s
+  end
+
+  def test_login
+    get '/api/login', {"email":"user1@assist.network","node":"1"}
+    assert last_response.ok?
+    assert JSON.parse(last_response.body), {:success => true, :name => "user1", :uid => "1", :auth_token => "verysecretauthtoken1"}
     p JSON.parse(last_response.body).to_s
   end
 

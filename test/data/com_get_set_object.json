@@ -1,6 +1,7 @@
 {
   "service": "an",
   "node":"1",
+  "auth_token": "verysecretauthtoken1",
   "msg":  [
     {
       "cmd": "d",

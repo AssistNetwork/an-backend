@@ -9,11 +9,14 @@ class Supply < Ohm::Model
   set :attrs, Array # attributumok
   attribute :qty  #mennyiség
   attribute :unit  # egység
-  attribute :end      # meddig
   attribute :long    # hol long
   attribute :lat     # hol lat
   attribute :start  # mettől
   attribute :end    # meddig
+
+  attribute :match  # match
+  attribute :public # public listings
+
   attribute :reason
   attribute :state
   attribute :parentid

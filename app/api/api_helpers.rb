@@ -1,6 +1,7 @@
 require 'redis'
 require 'logger'
 require 'grape'
+require_relative '../../lib/an/session'
 
 LIMIT = 20
 
@@ -28,8 +29,20 @@ end
 
 module ApiHelpers
 
-  def authenticate!
-    error!('401 Unauthorized', 401) unless headers['Auth'] == 'an-dev'
+  def authenticate!(auth_token)
+    error!('401 Unauthorized', 401) unless !session(auth_token)
+  end
+
+  def session(auth_token)
+    session = Session[auth_token]
+    if session.nil?
+      #session = Session.new (auth_token)
+    end
+    "verysecretauthtoken1" # TODO generation Secret AUTH TOKEN!
+  end
+
+  def delete_session(auth_token)
+    Session[auth_token] = NIL
   end
 
   def cmd_type (cmd)
