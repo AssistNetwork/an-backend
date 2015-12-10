@@ -79,6 +79,7 @@ module AN
             else
               node.syncdata = params[:syncdata]
               node.save
+#              Notification.create (:node => node, :cmd => 'sync', :data =>'', :event=>'synced')
               {:success => true}
             end
           end
@@ -202,9 +203,11 @@ module AN
                     object.node = node
                     object.save
                     resp.push({:object => m.cmd + object.msgid.to_s, :state => 'created'})
+#                    Notification.create (:node => node, :cmd => m.cmd, :data =>'msgid:'+object.msgid.to_s, :event=>'created')
                   else
                     object.update( m.content )
                     resp.push({:object => m.cmd + object.msgid.to_s, :state => 'updated'})
+#                    Notification.create (:node => node, :cmd => m.cmd, :data =>'msgid:'+object.msgid.to_s, :event=>'updated')
                   end
                 else
                   resp.push({:error => 'MSGID Error: Null identifier', :state => 'null'})
@@ -233,6 +236,9 @@ module AN
           else
             resp = Array.new
             q = params[:query]
+            if q.class == 'String'
+              q.to_hash_object
+            end
             begin
               # logger.info m.to_s
               clazz = Object.const_get(cmd_type(q.type))
@@ -243,11 +249,11 @@ module AN
               {:error => 'ModelError: Wrong object model'}
             end
             rescue_db_errors {
-              if q.filter.msgid.nil?
-                resp.push({:error => 'MSGID Error or Not Found', :success => false})
+              if q.type.nil?
+                resp.push({:error => 'Type error', :success => false})
               else
                 result = Array.new # TODO befejezni
-                result = clazz.find(:msgid => q.filter.msgid) # TODO Lista kezelés
+                result = clazz.find(:type => q.type) # TODO Lista kezelés
                 unless result.nil?
 #                  resp.push({:result => result.each {|r| r.to_hash }, :success => true}) # Paginate nélkül
                   resp.push({:result => paginate(result, params[:page_num], params[:limit]), :success => true})

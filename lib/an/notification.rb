@@ -10,6 +10,13 @@ class Notification < Ohm::Model
 
   reference :node, :Node
 
+  def Initialize( node, cmd, data, event)
+    self.node = node
+    self.cmd = cmd
+    self.node = data
+    self.cmd = event
+    self.save
+  end
 
   def to_hash
     {:id => id.to_i}.merge(@attributes)
