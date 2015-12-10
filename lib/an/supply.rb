@@ -7,6 +7,7 @@ class Supply < Ohm::Model
   attribute :msgid
   attribute :what   # mit: a szokásos command
   attribute :attrs, Array # attributumok
+  attribute :attrsnot, Array # attributumok
   attribute :qty  #mennyiség
   attribute :unit  # egység
   attribute :long    # hol long
