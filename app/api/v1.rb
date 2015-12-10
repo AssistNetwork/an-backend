@@ -253,7 +253,11 @@ module AN
                 resp.push({:error => 'Type error', :success => false})
               else
                 result = Array.new # TODO befejezni
-                result = clazz.find(:type => q.type) # TODO Lista kezelés
+                if q.filter.nil? # or q.filter.msgid.nil?
+                  result = clazz.all # TODO Lista kezelés
+                else
+                  result = clazz.find(msgid: q.filter.msgid) # TODO Lista kezelés
+                end
                 unless result.nil?
 #                  resp.push({:result => result.each {|r| r.to_hash }, :success => true}) # Paginate nélkül
                   resp.push({:result => paginate(result, params[:page_num], params[:limit]), :success => true})

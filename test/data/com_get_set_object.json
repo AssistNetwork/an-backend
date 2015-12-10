@@ -20,6 +20,42 @@
         "state": "",
         "parentid": ""
       }
+    },
+    {
+      "cmd": "d",
+      "content": {
+        "msgid": "4",
+        "what": "g/clth/shoe/man",
+        "attrs":["43","valami"],
+        "attrsnot": ["félcipő"],
+        "qty":"4",
+        "unit":"pcs",
+        "long":"",
+        "lat":"",
+        "start": "2015.11.16 08:00",
+        "end": "",
+        "reason": "",
+        "state": "",
+        "parentid": ""
+      }
+    },
+    {
+      "cmd": "d",
+      "content": {
+        "msgid": "5",
+        "what": "g/clth/shoe/man",
+        "attrs":["44","valami"],
+        "attrsnot": ["félcipő"],
+        "qty":"5",
+        "unit":"pcs",
+        "long":"",
+        "lat":"",
+        "start": "2015.11.16 08:00",
+        "end": "",
+        "reason": "",
+        "state": "",
+        "parentid": ""
+      }
     }
   ]
 

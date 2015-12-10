@@ -72,6 +72,29 @@ class ANApi < APITest
     assert_equal resp1,resp2
 
     p JSON.parse(last_response.body).to_s
+
+    data = JSON.parse(File.read(@path + 'com_get_query_multi_object.json'))
+    get '/api/com', data
+
+    resp1 = JSON.parse(last_response.body)
+    resp2 = JSON.parse(File.read(@path + 'com_get_resp_multi_object.json'))
+
+    resp2[0]['result']['page'][0]['id'] = resp1[0]['result']['page'][0]['id']
+    resp2[0]['result']['page'][0]['created_at'] = resp1[0]['result']['page'][0]['created_at']
+    resp2[0]['result']['page'][0]['updated_at'] = resp1[0]['result']['page'][0]['updated_at']
+    resp2[0]['result']['page'][1]['id'] = resp1[0]['result']['page'][1]['id']
+    resp2[0]['result']['page'][1]['created_at'] = resp1[0]['result']['page'][1]['created_at']
+    resp2[0]['result']['page'][1]['updated_at'] = resp1[0]['result']['page'][1]['updated_at']
+    resp2[0]['result']['page'][2]['id'] = resp1[0]['result']['page'][2]['id']
+    resp2[0]['result']['page'][2]['created_at'] = resp1[0]['result']['page'][2]['created_at']
+    resp2[0]['result']['page'][2]['updated_at'] = resp1[0]['result']['page'][2]['updated_at']
+
+
+
+    assert_equal resp1,resp2
+
+    p JSON.parse(last_response.body).to_s
   end
+
 
 end
