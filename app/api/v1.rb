@@ -68,7 +68,7 @@ module AN
       end
 
       post do
-#        authenticate!(@auth_token)
+#        authenticate!(params[:auth_token])
         begin
           node = Node[(params[:node])]
           if node.nil?
@@ -93,7 +93,7 @@ module AN
       end
       desc 'login'
       get do
-#        authenticate!(@auth_token)
+#        authenticate!(params[:auth_token])
         begin
           node = Node[(params[:node])]
           if node.nil?
@@ -118,7 +118,7 @@ module AN
       end
       desc 'logout'
       get do
-        authenticate!(@auth_token)
+        authenticate!(params[:auth_token])
         begin
           node = Node[(params[:node])]
           if node.nil?
@@ -138,13 +138,13 @@ module AN
       end
       desc 'notification'
       get do
-        authenticate!(@auth_token)
+ #       authenticate!(params[:auth_token])
         begin
           node = Node[(params[:node])]
           if node.nil?
             {:error => 'Wrong node ID'}
           else
-            result = Notification.find(:node => (params[:node]))
+            result = Notification.find(:node => (params[:node]), :created_at => Time.now )
             if user.nil?
               {:success => false}
             else
@@ -172,7 +172,7 @@ module AN
         requires :msg, type: Array, desc: 'Messages'
       end
       post do
-        #authenticate!
+        #authenticate!(params[:auth_token])
         begin
           node = Node[(params[:node])]
           if node.nil?

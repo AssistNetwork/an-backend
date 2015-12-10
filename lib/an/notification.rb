@@ -10,6 +10,7 @@ class Notification < Ohm::Model
 
   reference :node, :Node
 
+
   def to_hash
     {:id => id.to_i}.merge(@attributes)
   end
